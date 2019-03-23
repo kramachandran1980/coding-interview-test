@@ -9,52 +9,16 @@ int orderAroundThePivotValue(vector<int>& in, const int start, const int end);
 void quicksort(vector<int>& in , const int startPos, const int end);
 
 int main() {
-  auto words = { "Hello, ", "World!", "\n" };
-  for (const string& word : words) {
-    cout << word;
-  }
 
   vector<int> xs = { 1, 2 , 3, 4, 5};
 
-  /*
-3,5,4,8,10
-3 5 4 10 8
-
-  3 10 4 8 5
-  3 4 10 8 5
-  3 4 5 8 10
-
-  */
-
-  //choose a pivot - lets say the last element 
-  // 2 pointers from both sides 
-  // first pt runs till it finds a value > pivot
-  //second runs till value less than pivot
-  //swap the pointers
-  //continue till both meet 
-  //swap that place with pivot element 
-  // work on the partitions left of ptr , rght of ptr
-  //each partition - size + start pos
-
-  /*int pivotPos(xs.size()-1); //last element as pivot
-  while (pivotPos >= 0)
-  {
-      
-      //cal partitionsize
-      
-  }*/
-
   quicksort(xs,0, xs.size()-1);
-  //cout << "partition is " << isValidPartition(6, 5, 5) << endl;
-
-  //cout << orderAroundThePivotValue(xs, 0, xs.size()-1);
-
-  for (int i: xs)
-  {
+  
+  for (int i: xs){
       cout << i << " ";
   }
 
-string s;
+  string s;
   cin >> s;
   return 0;
 }
