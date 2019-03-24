@@ -1,57 +1,58 @@
-#include <iostream>
-#include <vector>
+
+#include "Problem1.h"
+
 using namespace std;
 
-// To execute C++, please define "int main()"
 
-bool isValidPartition(int start, int end, int maxBound);
-int orderAroundThePivotValue(vector<int>& in, const int start, const int end);
-void quicksort(vector<int>& in , const int startPos, const int end);
+void Problem1::DescribeProblem()
+{
+  cout << endl;
+  cout << "---------------------------------------------------" << endl;
+  cout << "-------------------PROBLEM 1-----------------------" << endl;
+}
 
-int main() {
+void Problem1::ExecuteTests() {
 
-  vector<int> xs = { 1, 2 , 3, 4, 5};
+  // Already ordered array
+  vector<int> t1 = { 1, 2 , 3, 4, 5};
+  sort(t1);
+
+  // reverse ordered array
+  vector<int> t2 = { 5, 4 , 3, 2, 1};
+  sort(t2);
+
+  // unordered random
+  vector<int> t3 = { 3, 2 , 6, 4, 5};
+  sort(t3);
+}
+
+void Problem1::sort(vector<int>& xs)
+{
+  cout << "input : ";
+  for (int i: xs){ cout << i << " ";}
+  cout << endl;
 
   quicksort(xs,0, xs.size()-1);
-  
-  for (int i: xs){
-      cout << i << " ";
-  }
 
-  string s;
-  cin >> s;
-  return 0;
+  cout << "output : ";
+  for (int i: xs){ cout << i << " ";}
+  cout << endl;
 }
 
 
-//swap that place with pivot element 
-  // work on the partitions left of ptr , rght of ptr
-  //each partition - size + start pos
-void quicksort(vector<int>& in , const int startPos, const int end){   
-    
-    if (!isValidPartition(startPos,end, in.size()-1))  { 
-      return; 
-    }
-
-    cout << startPos << end << endl;
-    if (end - startPos == 1)
+//Divide and conquer sort , two parts of the array divided by a pivot element. 
+// Pivot will be the last element always
+// base case : end == start (single didgit array partition)
+void Problem1::quicksort(vector<int>& in , const int startPos, const int end){      
+    if (end > startPos)
     {
-      if (in[end] < in[startPos])
-      {
-        swap(in[end] , in[startPos]);
-      }
-    }
-    else 
-    {
-      int pivotPos(orderAroundThePivotValue(in, startPos, end));
-
-      swap(in[pivotPos] , in[end]); //move pivot to start of right partition
+      int pivotPos(orderAroundThePivotValue(in, startPos, end));     
       quicksort(in, startPos, pivotPos-1);
-      quicksort(in, pivotPos, end);
+      quicksort(in, pivotPos+1, end);
     }
 }
 
-bool isValidPartition(int start, int end, int maxBound)
+bool Problem1::isValidPartition(int start, int end, int maxBound)
 {
   if (end <= start)  { return false; }
   if (start > maxBound || end > maxBound) { return false; }
@@ -61,29 +62,17 @@ bool isValidPartition(int start, int end, int maxBound)
 }
 
 //choose a pivot - lets say the last element 
-// 2 pointers from both sides 
-  // first pt runs till it finds a value > pivot
-  //second runs till value less than pivot
-  //swap the values at pointers
-  //continue till both meet
-  //finally return the value where the partition happened 
-int orderAroundThePivotValue(vector<int>& in, const int start, const int end)
+// Have a left and right pointer indicating the end of the partitioned arrays.
+// left : indicates where the array segment sepeares the smaller than pivot value, from the greater ones.  
+int Problem1::orderAroundThePivotValue(vector<int>& in, const int start, const int end)
 {
   int left(start), right(end-1), pivotVal(in[end]);
-  while(left < right) {
-    while(in[left] < pivotVal && left != right){  
-            left++;    
-    };
-    while(in[right] >= pivotVal && right >= 0 && right != left){
-            right--;     
-    };
-
-    if (left != right) {
-    swap(in[left],in[right]);
-    left++; right--;
-    }
-  };
-
-  int pivotPos(left == right ? right : right+1);
-  return pivotPos;
+  
+  for(int i(left); i <= end-1; i++) {
+    if (in[i] <= pivotVal) { 
+      swap(in[i], in[left++]); 
+    }  
+  }
+  swap(in[left], in[end]); // move pivot at intersection, else it will get considered for sort again. 
+  return left;
 }
