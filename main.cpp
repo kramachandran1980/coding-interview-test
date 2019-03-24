@@ -25,6 +25,7 @@ int main()
 
     problems.clear();
     string s;
+    cout << "Press any key" << endl;
     cin >> s;
 }
 
