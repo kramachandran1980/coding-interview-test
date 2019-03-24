@@ -8,8 +8,9 @@ using namespace std;
 
 forward_list<int>::const_iterator EraseElementFromList(int pos, forward_list<int>& list);
 
-struct CStyleList
-{
+class CStyleList
+{    
+public :
     struct Node
     {
         Node(int v):val(v), next(nullptr) {}
@@ -28,9 +29,6 @@ struct CStyleList
         }
     }
     
-    Node* first;
-    Node* last;
-
     void initialize(initializer_list<int>&& initialVals)
     {
         for (int i: initialVals) {
@@ -43,69 +41,6 @@ struct CStyleList
                 last = last->next;
             }            
         }
-    }
-
-    void erase_after(Node* ptr) {
-        if (ptr != nullptr && ptr->next != nullptr) {
-            auto temp = ptr->next->next;
-            delete ptr->next;
-            ptr->next = temp;
-            if (temp == nullptr) last = ptr;
-        }
-    }
-
-    bool moveFastPtrByCountSteps(int count, Node* fastPtr)
-    {
-        bool successful(true);
-        if (count <= 0) {
-            cout << "out of bounds";
-            successful = false;
-        }
-        else {
-            cout << "here " << count << fastPtr->val << endl;
-            //move fastPtr by count steps.
-            while(count > 0 && fastPtr != nullptr) {
-                fastPtr = fastPtr->next; 
-                count--;
-            };
-
-            cout << "here " << count << fastPtr->val << endl;
-
-            if (count != 0) {
-                cout << "out of bounds";
-                successful = false;
-            }
-        }
-        return successful;
-    }
-
-    bool moveFastPtrByCountSteps(int pos, Node** fastPtr)
-    {
-        bool successful(true);
-        int count(pos);
-        if (count <= 0) {
-            cout << "out of bounds for count of " << pos << endl;
-            successful = false;
-        }
-        else if ((*fastPtr) == nullptr) {
-            successful = false;
-        }        
-        else {
-            //cout << "here " << count << (*fastPtr)->val << endl;
-            //move fastPtr by count steps.
-            while(count > 0 && (*fastPtr) != nullptr) {
-                (*fastPtr) = (*fastPtr)->next; 
-                count--;
-            };
-
-            //cout << "here " << count << (*fastPtr)->val << endl;
-
-            if (count != 0) {
-                cout << "out of bounds for count of " << pos << endl;
-                successful = false;
-            }
-        }
-        return successful;
     }
 
     Node* EraseElementFromList(int pos) {
@@ -133,6 +68,41 @@ struct CStyleList
         }
         return first;
     }
+
+    Node* getFirst() const{
+        return first;
+    }
+
+private :
+
+    Node* first;
+    Node* last;
+
+    bool moveFastPtrByCountSteps(int pos, Node** fastPtr)
+    {
+        bool successful(true);
+        int count(pos);
+        if (count <= 0) {
+            cout << "out of bounds for count of " << pos << endl;
+            successful = false;
+        }
+        else if ((*fastPtr) == nullptr) {
+            successful = false;
+        }        
+        else {
+            //move fastPtr by count steps.
+            while(count > 0 && (*fastPtr) != nullptr) {
+                (*fastPtr) = (*fastPtr)->next; 
+                count--;
+            };
+
+            if (count != 0) {
+                cout << "out of bounds for count of " << pos << endl;
+                successful = false;
+            }
+        }
+        return successful;
+    }
 };
 
 int main() 
@@ -148,16 +118,19 @@ int main()
     linkedList.EraseElementFromList(6);
     linkedList.EraseElementFromList(0);
 
-    auto iter(linkedList.first);
+    auto iter(linkedList.getFirst());
     while(iter != nullptr)
     {
         cout << iter->val;
         iter = iter->next;
     }
 
-    auto fwdListIter = EraseElementFromList(1, inputList);
-    cout << *fwdListIter << endl;
-
+    EraseElementFromList(4, inputList);
+    EraseElementFromList(3, inputList);
+    EraseElementFromList(7, inputList);
+    EraseElementFromList(6, inputList);
+    EraseElementFromList(0, inputList);
+    
     for(auto item: inputList) { cout << item; }
      
     string s;
@@ -167,12 +140,21 @@ int main()
 
 forward_list<int>::const_iterator EraseElementFromList(int pos, forward_list<int>& list)
 {
+    if (pos <= 0) {
+        cout << "out of bounds for count of " << pos << endl;
+        return list.begin();
+    }
     forward_list<int>::iterator slowPtr(list.before_begin()), fastPtr(list.begin());
     
     int count(pos);
-    while(count > 0) {
+    while(count > 0 && fastPtr != list.end()) {
         fastPtr++; count--;
     };
+
+    if (count != 0) {
+        cout << "out of bounds for count of " << pos << endl;
+        return list.begin();
+    }
 
     while(fastPtr != list.end()) {
         fastPtr++;
