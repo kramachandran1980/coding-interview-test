@@ -1,15 +1,16 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+#include "Problem3.h"
 
 ///////////////////////////////////////////
 // Logic 
 ////////////////////////////////////////// 
 
 
-int main() 
+void Problem3::ExecuteTests()
 {
-    vector<int> moneyInEachHouse = { 1, 2 , 8, 5, 5, 6, 8, 10};
+    vector<int> moneyInEachHouse = { 1, 2 , 8, 100};
+    cout << "input : ";
+    for (int i: moneyInEachHouse){ cout << i << " ";}
+    cout << endl;
 
     //base case
     int maxMoneyTillNMinusTwoHouse(moneyInEachHouse[0]);
@@ -23,9 +24,12 @@ int main()
         maxMoneyTillNMinusOneHouse = val;
     }
 
-    cout << maxMoneyTillNMinusOneHouse; 
-  
-  string s;
-  cin >> s;
-  return 0;
+    cout << "output is" << maxMoneyTillNMinusOneHouse << endl; 
+}
+
+void Problem3::DescribeProblem()
+{
+  cout << endl;
+  cout << "---------------------------------------------------" << endl;
+  cout << "-------------------PROBLEM 3-----------------------" << endl;
 }

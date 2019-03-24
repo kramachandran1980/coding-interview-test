@@ -1,13 +1,6 @@
-#include <iostream>
-#include <forward_list>
-using namespace std;
+#include "Problem4.h"
 
-///////////////////////////////////////////
-// Logic 
-////////////////////////////////////////// 
-
-forward_list<int>::const_iterator EraseElementFromList(int pos, forward_list<int>& list);
-
+/// CCtyle implentation using single linkedlist
 class CStyleList
 {    
 public :
@@ -105,18 +98,23 @@ private :
     }
 };
 
-int main() 
+void Problem4::ExecuteTests()
 {
     forward_list<int> inputList = { 1, 2 , 8, 11, 4, 7, 9, 10};
+
+    cout << "testing with input :" ;
+    for(auto item: inputList) { cout << item; }
+    cout << endl;
 
     CStyleList linkedList;
     linkedList.initialize({ 1, 2 , 8, 11, 4, 7, 9, 10});
 
-    linkedList.EraseElementFromList(4);
-    linkedList.EraseElementFromList(3);
-    linkedList.EraseElementFromList(7);
-    linkedList.EraseElementFromList(6);
-    linkedList.EraseElementFromList(0);
+    cout << " CStyle impl result - operations : erase pos 4, 3, 7, 6, 0" << endl;
+    linkedList.EraseElementFromList(4); //normal deletion test
+    linkedList.EraseElementFromList(3); // normal deleted test
+    linkedList.EraseElementFromList(7); // out of bound deletion test -> pos bigger than array
+    linkedList.EraseElementFromList(6); // deletion where pos is smae as the size of the array
+    linkedList.EraseElementFromList(0); // deletion with invalid 0 value
 
     auto iter(linkedList.getFirst());
     while(iter != nullptr)
@@ -124,7 +122,9 @@ int main()
         cout << iter->val;
         iter = iter->next;
     }
+    cout << endl;
 
+    cout << " STL impl result - operations : erase pos 4, 3, 7, 6, 0" << endl;
     EraseElementFromList(4, inputList);
     EraseElementFromList(3, inputList);
     EraseElementFromList(7, inputList);
@@ -132,13 +132,9 @@ int main()
     EraseElementFromList(0, inputList);
     
     for(auto item: inputList) { cout << item; }
-     
-    string s;
-    cin >> s;
-    return 0;
 }
 
-forward_list<int>::const_iterator EraseElementFromList(int pos, forward_list<int>& list)
+forward_list<int>::const_iterator Problem4::EraseElementFromList(int pos, forward_list<int>& list)
 {
     if (pos <= 0) {
         cout << "out of bounds for count of " << pos << endl;
@@ -165,3 +161,9 @@ forward_list<int>::const_iterator EraseElementFromList(int pos, forward_list<int
     return list.begin();
 }
 
+void Problem4::DescribeProblem()
+{
+  cout << endl;
+  cout << "---------------------------------------------------" << endl;
+  cout << "-------------------PROBLEM 4-----------------------" << endl;
+}

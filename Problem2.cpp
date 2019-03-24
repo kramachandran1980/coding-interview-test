@@ -58,6 +58,7 @@ namespace customConverter
         return outVal;
     }
 };
+
 void Problem2::ExecuteTests() {   
     char buf[33]; // depends on radix
 
