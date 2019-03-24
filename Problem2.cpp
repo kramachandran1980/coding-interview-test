@@ -1,12 +1,8 @@
-#include <iostream>
-#include <vector>
-#include <string.h>
-#include <math.h>
-using namespace std;
+#include "Problem2.h"
 
 namespace customConverter
 {
-    // as of now base 10 only with signed ints
+    //Assumption : implementation only for base 10, signed and unsigned integers
     char * itoa ( int value, char * str, int base=10 )
     { 
         int j(0), addSign(value < 0); 
@@ -27,7 +23,10 @@ namespace customConverter
         return str;
     }
 
-    //decimal only    
+    //decimal only
+    // string is cleaned to remove spaces , and negetive sign 
+    // sign is added back later  
+    // For overflow case, retval is 0  
     int atoi (const char * str)
     {
         //clean up string to remove spaces
@@ -59,18 +58,45 @@ namespace customConverter
         return outVal;
     }
 };
-int main() {   
+void Problem2::ExecuteTests() {   
     char buf[33]; // depends on radix
 
-    int val(-2147483647);
-    customConverter::itoa(val, buf);
-    cout << buf << endl;
+    cout << "normal number test with 123" << endl;
+    int v1(123);
+    customConverter::itoa(v1, buf);
+    cout << "itoa gave: " << buf << endl;
+    customConverter::atoi(buf);
+    cout << "atoi gave: " << buf << endl;
 
-    cout << customConverter::atoi("1") << endl;
+    cout << "largenumber with 2147483647" << endl;
+    v1 = (2147483647);
+    customConverter::itoa(v1, buf);
+    cout << "itoa gave: " << buf << endl;
+    customConverter::atoi(buf);
+    cout << "atoi gave: " << buf << endl;
 
-    cout << customConverter::atoi("2147483647") << endl;
+    cout << "overflow test with 2147483800" << endl;
+    customConverter::atoi(buf);
+    cout << "atoi gave: " << buf << endl;
 
-  string s;
-  cin >> s;
-  return 0;
+    cout << "negative test with -123" << endl;
+    v1=(-123);
+    customConverter::itoa(v1, buf);
+    cout << "itoa gave: " << buf << endl;
+    customConverter::atoi(buf);
+    cout << "atoi gave: " << buf << endl;
+
+    cout << "0 test with 0" << endl;
+    v1=(0);
+    customConverter::itoa(v1, buf);
+    cout << "itoa gave: " << buf << endl;
+    customConverter::atoi(buf);
+    cout << "atoi gave: " << buf << endl;
+}
+
+void Problem2::DescribeProblem()
+{
+  cout << endl;
+  cout << "---------------------------------------------------" << endl;
+  cout << "-------------------PROBLEM 2-----------------------" << endl;
 }
