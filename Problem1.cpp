@@ -22,8 +22,12 @@ void Problem1::ExecuteTests() {
   sort(t2);
 
   // unordered random
-  vector<int> t3 = { 3, 2 , 6, 4, 5};
+  vector<int> t3 = { 3, 2 , 6, 4, 5, 9, 1};
   sort(t3);
+
+  // unordered random with negetive
+  vector<int> t4 = { 3, 2 , -6, 4, 5, 9, 1};
+  sort(t4);
 }
 
 void Problem1::sort(vector<int>& xs)
