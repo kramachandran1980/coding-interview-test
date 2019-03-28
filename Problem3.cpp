@@ -7,11 +7,19 @@
 
 void Problem3::ExecuteTests()
 {
-    vector<int> moneyInEachHouse = { 1, 2 , 8, 100};
+    int arr[]= { 1, 2 , 8, 100};
+    vector<int> moneyInEachHouse(arr, arr + sizeof(arr) / sizeof(arr[0]));
+    
     cout << "input : ";
-    for (int i: moneyInEachHouse){ cout << i << " ";}
+    for (int i(0); i < moneyInEachHouse.size(); i++){ cout << moneyInEachHouse[i] << " ";}
     cout << endl;
 
+    if (moneyInEachHouse.size() < 2)
+    {
+      cout << "too small an input" << endl;
+      return ;
+    }
+    
     //base case
     int maxMoneyTillNMinusTwoHouse(moneyInEachHouse[0]);
     int maxMoneyTillNMinusOneHouse(max(moneyInEachHouse[0], moneyInEachHouse[1]));

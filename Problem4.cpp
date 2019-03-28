@@ -6,26 +6,26 @@ class CStyleList
 public :
     struct Node
     {
-        Node(int v):val(v), next(nullptr) {}
+        Node(int v):val(v), next(NULL) {}
         Node* next;
         int val;
     };
 
-    CStyleList(): first(nullptr), last(nullptr) {}
+    CStyleList(): first(NULL), last(NULL) {}
     ~CStyleList() {
         Node* iter(first);
-        while(iter != nullptr)
+        while(iter != NULL)
         {
-            auto temp = iter;
+            Node* temp = iter;
             iter = iter->next;
             delete temp;
         }
     }
     
-    void initialize(initializer_list<int>&& initialVals)
+    void initialize(int initialVals[], int count)
     {
-        for (int i: initialVals) {
-            if (first == nullptr && last == nullptr) {
+        for (int i(0); i < count; i++) {
+            if (first == NULL && last == NULL) {
                 first = new Node(i);
                 last = first;
             }
@@ -37,24 +37,24 @@ public :
     }
 
     Node* EraseElementFromList(int pos) {
-        Node* slowPtr(nullptr); //before begin
+        Node* slowPtr(NULL); //before begin
         Node* fastPtr(first); //begin
         
         if (moveFastPtrByCountSteps(pos, &fastPtr))
         {
-            while(fastPtr != nullptr /*last*/) {
+            while(fastPtr != NULL /*last*/) {
                 fastPtr = fastPtr->next;               
-                slowPtr = (slowPtr == nullptr) ? first : slowPtr->next;
+                slowPtr = (slowPtr == NULL) ? first : slowPtr->next;
             };
 
             // if before_begin is null , we need to delete first
-            if (slowPtr == nullptr) { 
-                auto temp = first->next;
+            if (slowPtr == NULL) { 
+                Node* temp = first->next;
                 delete first;
                 first = temp;
             }
             else {
-                auto temp = slowPtr->next;
+                Node* temp = slowPtr->next;
                 slowPtr->next = slowPtr->next->next;
                 delete temp;
             }
@@ -79,12 +79,12 @@ private :
             cout << "out of bounds for count of " << pos << endl;
             successful = false;
         }
-        else if ((*fastPtr) == nullptr) {
+        else if ((*fastPtr) == NULL) {
             successful = false;
         }        
         else {
             //move fastPtr by count steps.
-            while(count > 0 && (*fastPtr) != nullptr) {
+            while(count > 0 && (*fastPtr) != NULL) {
                 (*fastPtr) = (*fastPtr)->next; 
                 count--;
             };
@@ -100,14 +100,14 @@ private :
 
 void Problem4::ExecuteTests()
 {
-    forward_list<int> inputList = { 1, 2 , 8, 11, 4, 7, 9, 10};
+    int arr[]= { 1, 2 , 8, 11, 4, 7, 9, 10};
 
     cout << "testing with input :" ;
-    for(auto item: inputList) { cout << item; }
+    for(int item(0); item < sizeof(arr)/sizeof(arr[0]); item++) { cout << arr[item] << " "; }
     cout << endl;
 
     CStyleList linkedList;
-    linkedList.initialize({ 1, 2 , 8, 11, 4, 7, 9, 10});
+    linkedList.initialize(arr, sizeof(arr)/sizeof(arr[0]));
 
     cout << " CStyle impl result - operations : erase pos 4, 3, 7, 6, 0" << endl;
     linkedList.EraseElementFromList(4); //normal deletion test
@@ -116,25 +116,27 @@ void Problem4::ExecuteTests()
     linkedList.EraseElementFromList(6); // deletion where pos is smae as the size of the array
     linkedList.EraseElementFromList(0); // deletion with invalid 0 value
 
-    auto iter(linkedList.getFirst());
-    while(iter != nullptr)
+    CStyleList::Node* iter(linkedList.getFirst());
+    while(iter != NULL)
     {
-        cout << iter->val;
+        cout << iter->val << " ";
         iter = iter->next;
     }
     cout << endl;
 
-    cout << " STL impl result - operations : erase pos 4, 3, 7, 6, 0" << endl;
+    /*cout << " STL impl result - operations : erase pos 4, 3, 7, 6, 0" << endl;
+    forward_list<int> inputList = { 1, 2 , 8, 11, 4, 7, 9, 10};
+
     EraseElementFromList(4, inputList);
     EraseElementFromList(3, inputList);
     EraseElementFromList(7, inputList);
     EraseElementFromList(6, inputList);
     EraseElementFromList(0, inputList);
     
-    for(auto item: inputList) { cout << item; }
+    for(auto item: inputList) { cout << item; }*/
 }
 
-forward_list<int>::const_iterator Problem4::EraseElementFromList(int pos, forward_list<int>& list)
+/*forward_list<int>::const_iterator Problem4::EraseElementFromList(int pos, forward_list<int>& list)
 {
     if (pos <= 0) {
         cout << "out of bounds for count of " << pos << endl;
@@ -159,7 +161,7 @@ forward_list<int>::const_iterator Problem4::EraseElementFromList(int pos, forwar
 
     list.erase_after(slowPtr);
     return list.begin();
-}
+}*/
 
 void Problem4::DescribeProblem()
 {

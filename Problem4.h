@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <forward_list>
+//#include <forward_list>
 #include "IProblem.h"
 using namespace std;
 
@@ -11,5 +11,5 @@ class Problem4 : public IProblem
     virtual void ExecuteTests();
 
     private:
-    forward_list<int>::const_iterator EraseElementFromList(int pos, forward_list<int>& list);
+    //forward_list<int>::const_iterator EraseElementFromList(int pos, forward_list<int>& list);
 };

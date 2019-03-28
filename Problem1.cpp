@@ -14,32 +14,36 @@ void Problem1::DescribeProblem()
 void Problem1::ExecuteTests() {
 
   // Already ordered array
-  vector<int> t1 = { 1, 2 , 3, 4, 5};
+  int arr1[] = { 1, 2 , 3, 4, 5};
+  vector<int> t1(arr1, arr1 + sizeof(arr1) / sizeof(arr1[0]));
   sort(t1);
 
   // reverse ordered array
-  vector<int> t2 = { 5, 4 , 3, 2, 1};
+  int arr2[] = { 5, 4 , 3, 2, 1};
+  vector<int> t2 (arr2, arr2 + sizeof(arr2) / sizeof(arr2[0]));
   sort(t2);
 
   // unordered random
-  vector<int> t3 = { 3, 2 , 6, 4, 5, 9, 1};
+  int arr3[] = {3, 2 , 6, 4, 5, 9, 1};
+  vector<int> t3 (arr3, arr3 + sizeof(arr3) / sizeof(arr3[0]));
   sort(t3);
 
   // unordered random with negetive
-  vector<int> t4 = { 3, 2 , -6, 4, 5, 9, 1};
+  int arr4[] = { 3, 2 , -6, 4, 5, 9, 1};
+  vector<int> t4 (arr4, arr4 + sizeof(arr4) / sizeof(arr4[0]));
   sort(t4);
 }
 
 void Problem1::sort(vector<int>& xs)
 {
   cout << "input : ";
-  for (int i: xs){ cout << i << " ";}
+  for (int i(0); i < xs.size(); i++){ cout << xs[i] << " ";}
   cout << endl;
 
   quicksort(xs,0, xs.size()-1);
 
   cout << "output : ";
-  for (int i: xs){ cout << i << " ";}
+  for (int i(0); i < xs.size(); i++){ cout << xs[i] << " ";}
   cout << endl;
 }
 
